@@ -34,6 +34,10 @@ copy_image = lib.copy_image
 copy_image.argtypes = [IMAGE]
 copy_image.restype = IMAGE
 
+copy_image_bounds = lib.copy_image_bounds
+copy_image_bounds.argtypes = [IMAGE, c_int, c_int]
+copy_image_bounds.restype = IMAGE
+
 rgb_to_grayscale = lib.rgb_to_grayscale
 rgb_to_grayscale.argtypes = [IMAGE]
 rgb_to_grayscale.restype = IMAGE

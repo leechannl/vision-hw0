@@ -1,6 +1,7 @@
 from uwimg import (
     clamp_image,
     copy_image,
+    copy_image_bounds,
     hsv_to_rgb,
     load_image,
     rgb_to_grayscale,
@@ -16,6 +17,13 @@ for row in range(im.h):
     for col in range(im.w):
         set_pixel(im, col, row, 0, 0)
 save_image(im, "dog_no_red")
+
+# 1.1 Showing the clamp padding strategy
+im = load_image("data/dog.jpg")
+copy_im_exbounds = copy_image_bounds(im, int(im.w * 2), int(im.h * 2))
+save_image(copy_im_exbounds, "dog_copy_exbounds")
+copy_im_shrink = copy_image_bounds(im, int(im.w * 0.5), int(im.h * 0.5))
+save_image(copy_im_shrink, "dog_copy_shrink")
 
 # 2. Copy image
 im = load_image("data/dog.jpg")
