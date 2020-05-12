@@ -73,10 +73,10 @@ image rgb_to_grayscale(image im) {
 
   for (int i = 0; i < im.w; i++) {
     for (int j = 0; j < im.h; j++) {
-      log_debug("get_pixel(im, i, j, 0): %f, get_pixel(im, i, j, 1): %f, "
-                "get_pixel(im, i, j, 2): %f",
-                get_pixel(im, i, j, 0), get_pixel(im, i, j, 1),
-                get_pixel(im, i, j, 2));
+      // log_debug("get_pixel(im, i, j, 0): %f, get_pixel(im, i, j, 1): %f, "
+      //           "get_pixel(im, i, j, 2): %f",
+      //           get_pixel(im, i, j, 0), get_pixel(im, i, j, 1),
+      //           get_pixel(im, i, j, 2));
       float y = 0.299 * get_pixel(im, i, j, 0) +
                 0.587 * get_pixel(im, i, j, 1) + 0.114 * get_pixel(im, i, j, 2);
       gray.data[i + j * im.w] = y;
@@ -87,7 +87,11 @@ image rgb_to_grayscale(image im) {
 }
 
 void shift_image(image im, int c, float v) {
-  // TODO Fill this in
+  for (int i = 0; i < im.w; i++) {
+    for (int j = 0; j < im.h; j++) {
+      set_pixel(im, i, j, c, get_pixel(im, i, j, c) + v);
+    }
+  }
 }
 
 void clamp_image(image im) {
