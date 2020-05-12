@@ -95,7 +95,18 @@ void shift_image(image im, int c, float v) {
 }
 
 void clamp_image(image im) {
-  // TODO Fill this in
+  for (int i = 0; i < im.w; i++) {
+    for (int j = 0; j < im.h; j++) {
+      for (int k = 0; k < im.c; k++) {
+        if (get_pixel(im, i, j, k) > 1) {
+          set_pixel(im, i, j, k, 1);
+        }
+        if (get_pixel(im, i, j, k) < 0) {
+          set_pixel(im, i, j, k, 0);
+        }
+      }
+    }
+  }
 }
 
 // These might be handy
