@@ -81,6 +81,14 @@ void shift_image(image im, int c, float v) {
   }
 }
 
+void scale_image(image im, int c, float v){
+  for (int i = 0; i < im.w; i++) {
+    for (int j = 0; j < im.h; j++) {
+      set_pixel(im, i, j, c, get_pixel(im, i, j, c) * v);
+    }
+  }
+}
+
 void clamp_image(image im) {
   for (int i = 0; i < im.w; i++) {
     for (int j = 0; j < im.h; j++) {
@@ -149,6 +157,7 @@ void hsv_to_rgb(image im) {
       c = s * v;
       x = c * (1 - fabs(fmod(h / 60, 2) - 1));
       m = v - c;
+
       if (h < 60) {
         r = c, g = x, b = 0;
       } else if (h < 120) {

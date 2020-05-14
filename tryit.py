@@ -7,6 +7,7 @@ from uwimg import (
     rgb_to_grayscale,
     rgb_to_hsv,
     save_image,
+    scale_image,
     set_pixel,
     shift_image,
 )
@@ -54,3 +55,12 @@ shift_image(im, 1, 0.2)
 clamp_image(im)
 hsv_to_rgb(im)
 save_image(im, "dog_saturated")
+
+# 8. Better saturation
+
+im = load_image("data/dog.jpg")
+rgb_to_hsv(im)
+scale_image(im, 1, 2)
+clamp_image(im)
+hsv_to_rgb(im)
+save_image(im, "dog_scale_saturated")
