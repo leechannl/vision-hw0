@@ -1,22 +1,19 @@
-import sys, os
-from ctypes import *
-import math
-import random
+import os
+from ctypes import CDLL, POINTER, RTLD_GLOBAL, Structure, c_char_p, c_float, c_int
+
 
 def c_array(ctype, values):
-    arr = (ctype*len(values))()
+    arr = (ctype * len(values))()
     arr[:] = values
     return arr
 
+
 class IMAGE(Structure):
-    _fields_ = [("w", c_int),
-                ("h", c_int),
-                ("c", c_int),
-                ("data", POINTER(c_float))]
+    _fields_ = [("w", c_int), ("h", c_int), ("c", c_int), ("data", POINTER(c_float))]
 
 
-#lib = CDLL("/home/pjreddie/documents/455/libuwimg.so", RTLD_GLOBAL)
-#lib = CDLL("libuwimg.so", RTLD_GLOBAL)
+# lib = CDLL("/home/pjreddie/documents/455/libuwimg.so", RTLD_GLOBAL)
+# lib = CDLL("libuwimg.so", RTLD_GLOBAL)
 lib = CDLL(os.path.join(os.path.dirname(__file__), "libuwimg.so"), RTLD_GLOBAL)
 
 make_image = lib.make_image
@@ -33,6 +30,14 @@ get_pixel.restype = c_float
 set_pixel = lib.set_pixel
 set_pixel.argtypes = [IMAGE, c_int, c_int, c_int, c_float]
 
+copy_image = lib.copy_image
+copy_image.argtypes = [IMAGE]
+copy_image.restype = IMAGE
+
+copy_image_bounds = lib.copy_image_bounds
+copy_image_bounds.argtypes = [IMAGE, c_int, c_int]
+copy_image_bounds.restype = IMAGE
+
 rgb_to_grayscale = lib.rgb_to_grayscale
 rgb_to_grayscale.argtypes = [IMAGE]
 rgb_to_grayscale.restype = IMAGE
@@ -46,6 +51,9 @@ hsv_to_rgb.argtypes = [IMAGE]
 shift_image = lib.shift_image
 shift_image.argtypes = [IMAGE, c_int, c_float]
 
+scale_image = lib.scale_image
+scale_image.argtypes = [IMAGE, c_int, c_float]
+
 clamp_image = lib.clamp_image
 clamp_image.argtypes = [IMAGE]
 
@@ -53,18 +61,19 @@ load_image_lib = lib.load_image
 load_image_lib.argtypes = [c_char_p]
 load_image_lib.restype = IMAGE
 
+
 def load_image(f):
-    return load_image_lib(f.encode('ascii'))
+    return load_image_lib(f.encode("ascii"))
+
 
 save_image_lib = lib.save_image
 save_image_lib.argtypes = [IMAGE, c_char_p]
 
+
 def save_image(im, f):
-    return save_image_lib(im, f.encode('ascii'))
+    return save_image_lib(im, f.encode("ascii"))
+
 
 if __name__ == "__main__":
     im = load_image("data/dog.jpg")
     save_image(im, "hey")
-
-    
-
